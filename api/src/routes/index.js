@@ -51,27 +51,21 @@ router.get("/countries", async (req, res) => {
 
 router.post("/activities", async (req, res) => {
   const { nombre, dificultad, duracion, temporada } = req.body;
+
   try {
-    const nueva = await Activity.create({
-      nombre: nombre,
-      dificultad: dificultad,
-      duracion: duracion,
-      temporada: temporada,
+    let nueva = await Activity.findOrCreate({
+      where: {
+        nombre: nombre,
+        dificultad: dificultad,
+        duracion: duracion,
+        temporada: temporada,
+      },
     });
 
-    // let findPai = await Country.findAll({
-    //   where: {
-    //     name: nombre,
-    //   },
-    // });
-
-    // nueva.addCountry(findPai);
     res.json(nueva);
   } catch (error) {
     res.status(404).send(error);
   }
 });
-
-// server.get("/countries", (req, res) => {});
 
 module.exports = router;
