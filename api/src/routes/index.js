@@ -11,37 +11,42 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
-const data = async () => {
-  const countries = await axios.get("https://restcountries.com/v3/all");
-  return countries.data;
-};
-
 router.get("/countries", async (req, res) => {
-  // const apiCountries = await data();
-  // const infoApi = apiCountries.map((e) => {
-  //   return {
-  //     id: e.cca3,
-  //     name: e.name.official,
-  //     flag: e.flag,
-  //     continente: e.continents,
-  //     capital: e.capital,
-  //   };
-  // });
-  // res.json(infoApi);
-  // try {
-  //   let findPaises = await Country.findAll();
-  //   if (!findPaises.length) {
-  //     await Country.bulkCreate(infoApi);
-  //   }
-  // } catch {}
-  //   try {
-  //     let findPaises = await Country.findAll();
-  //     if (!findPaises.length) {
-  //       await Country.bulkCreate(infoApi);
-  //     } else {
-  //       res.json(infoApi);
-  //     }
-  //   } catch (error) {}
+  try {
+    const countries = await Country.findAll();
+    const info = await axios.get("https://restcountries.com/v3/all");
+
+    const infoApi = await info.data.map((e) => {
+      return {
+        name: e.name.official,
+        id: e.cca3,
+        capital: e.capital ? e.capital[0] : "no papa",
+        flag: e.flags[0],
+        continente: e.continents[0],
+      };
+    });
+    if (!countries.length) {
+      const info = await axios.get("https://restcountries.com/v3/all");
+      const infoApi = await info.data.map((e) => {
+        return {
+          name: e.name.official,
+          id: e.cca3,
+          capital: e.capital ? e.capital[0] : "no papa",
+          flag: e.flags[0],
+          continente: e.continents[0],
+        };
+      });
+
+      await Country.bulkCreate(infoApi);
+      res.json(infoApi);
+      console.log("creada");
+    } else {
+      console.log("GET DE PAISES");
+      res.json(infoApi);
+    }
+  } catch (error) {
+    res.status(404).send(error);
+  }
 });
 
 router.post("/activities", async (req, res) => {

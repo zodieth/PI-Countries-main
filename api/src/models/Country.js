@@ -12,6 +12,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(3),
       primaryKey: true,
       allowNull: false,
+      unique: true,
     },
     capital: {
       type: DataTypes.STRING,
