@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  border: 0.25rem solid black;
+  border-radius: 2rem;
+  padding: 3rem;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  width: 300px;
+  height: 200px;
+}
+
+.flag {
+  width: 200px;
+  height: 200px;
+
+  /* border-radius: 1rem; */
+}
+
+h1 {
+  font-size: 1.25rem;
+}

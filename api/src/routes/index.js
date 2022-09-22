@@ -72,7 +72,10 @@ router.get("/countries/:id", async (req, res) => {
         id: id.toUpperCase(),
       },
     });
-    if (findId) res.json(findId);
+    if (findId) {
+      res.json(findId);
+      console.log("por id");
+    }
   } else if (id.length > 3) res.status(404).send("El ID no existe");
 });
 
